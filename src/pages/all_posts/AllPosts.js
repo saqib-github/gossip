@@ -1,8 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Post from '../../components/post/Post';
 import RichTextEditor from '../create_post/RichTextEditor';
+import Cookies from 'js-cookie';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { get } from '../../API';
+import { API_URL_LIST } from '../../API/API-List';
 
 const AllPosts = () => {
+    // -----------------------
+    const [posts, setPosts] = useState([]);
+
+    const getAllposts = async () => {
+        try {
+            const response = await get(API_URL_LIST.all_posts, '', {});
+        } catch (error) {}
+    };
+
+    useEffect(() => {
+        getAllposts();
+    }, []);
+
+    if (!Cookies.get('token')) {
+        return <Navigate to="/login" />;
+    }
+
+    // -----------------------
     // -----------------------
     // -----------------------
     return (
